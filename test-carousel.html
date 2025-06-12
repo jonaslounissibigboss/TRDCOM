@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Services Carousel Test</title>
+    <script>
+        // Simple test to check if carousel functions are working
+        function testCarouselFunctionality() {
+            console.log('=== CAROUSEL FUNCTIONALITY TEST ===');
+            
+            // Wait for DOM to load
+            setTimeout(() => {
+                const carousel = document.querySelector('.services-carousel');
+                const cards = document.querySelectorAll('.service-card');
+                const prevBtn = document.querySelector('.carousel-btn.prev');
+                const nextBtn = document.querySelector('.carousel-btn.next');
+                const indicators = document.querySelectorAll('.indicator');
+                
+                console.log('Carousel element found:', !!carousel);
+                console.log('Service cards found:', cards.length);
+                console.log('Previous button found:', !!prevBtn);
+                console.log('Next button found:', !!nextBtn);
+                console.log('Indicators found:', indicators.length);
+                
+                // Test next button functionality
+                if (nextBtn) {
+                    console.log('Testing next button click...');
+                    nextBtn.click();
+                    
+                    setTimeout(() => {
+                        const carouselTransform = window.getComputedStyle(carousel).transform;
+                        console.log('Carousel transform after next click:', carouselTransform);
+                    }, 500);
+                }
+                
+                // Test scroll buttons
+                const heroScrollIndicator = document.querySelector('.hero-scroll-indicator');
+                const backToTopBtn = document.querySelector('.back-to-top');
+                
+                console.log('Hero scroll indicator found:', !!heroScrollIndicator);
+                console.log('Back to top button found:', !!backToTopBtn);
+                
+                if (heroScrollIndicator) {
+                    console.log('Hero scroll indicator has cursor pointer:', 
+                        window.getComputedStyle(heroScrollIndicator).cursor === 'pointer');
+                }
+                
+                if (backToTopBtn) {
+                    console.log('Back to top button has cursor pointer:', 
+                        window.getComputedStyle(backToTopBtn).cursor === 'pointer');
+                }
+                
+                console.log('=== TEST COMPLETED ===');
+            }, 2000);
+        }
+        
+        // Run test when page loads
+        window.addEventListener('load', testCarouselFunctionality);
+    </script>
+</head>
+<body>
+    <h1>Carousel Test - Check Console for Results</h1>
+    <p>This page will test the carousel functionality. Open the main website and check the browser console for test results.</p>
+    <script>
+        // Redirect to main page after showing message
+        setTimeout(() => {
+            window.location.href = '/';
+        }, 1000);
+    </script>
+</body>
+</html>

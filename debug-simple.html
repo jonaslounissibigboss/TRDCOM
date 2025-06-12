@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kommærsj – TRD Commercial Hub (No Intro)</title>
+    <link rel="stylesheet" href="src/styles/main.css">
+    <style>
+        /* Override intro styles for debugging */
+        body.intro-active header,
+        body.intro-active main,
+        body.intro-active footer {
+            opacity: 1 !important;
+            visibility: visible !important;
+        }
+        #logo-intro-overlay {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-container">
+                <div class="header-content">
+                    <div class="logo-text">KOMMÆRSJ</div>
+                    <nav class="main-nav">
+                        <ul class="nav-list">
+                            <li><a href="#hero" class="nav-link">Home</a></li>
+                            <li><a href="#about" class="nav-link">Solutions</a></li>
+                            <li><a href="#services" class="nav-link">Services</a></li>
+                            <li><a href="#contact" class="nav-link">Contact</a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section id="hero" style="background: linear-gradient(135deg, #000000 0%, #2c2c2c 100%); color: white; min-height: 100vh; display: flex; align-items: center; justify-content: center;">
+            <div class="hero-content">
+                <h1 style="font-size: 3rem; margin-bottom: 1rem;">KOMMÆRSJ</h1>
+                <p style="font-size: 1.2rem; margin-bottom: 2rem;">TRD Commercial Hub</p>
+                <div class="hero-buttons">
+                    <a href="#about" class="btn btn-primary">Learn More</a>
+                    <a href="#contact" class="btn btn-secondary">Contact Us</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="about">
+            <!-- About content will be loaded here -->
+        </section>        <section id="services">
+            <!-- Services content will be loaded here -->
+        </section>
+
+        <section id="reviews">
+            <!-- Reviews content will be loaded here -->
+        </section>
+
+        <section id="contact">
+            <!-- Contact content will be loaded here -->
+        </section>
+    </main>
+
+    <footer style="background: #000; color: white; padding: 60px 0; text-align: center;">
+        <div class="container">
+            <p>&copy; 2025 Kommærsj - TRD Commercial Hub. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Simplified component loader for debugging
+        async function loadComponents() {
+            console.log('Loading components...');
+              const components = [
+                { selector: '#about', file: 'src/components/about.html' },
+                { selector: '#services', file: 'src/components/services.html' },
+                { selector: '#reviews', file: 'src/components/reviews.html' },
+                { selector: '#contact', file: 'src/components/contact.html' }
+            ];
+            
+            for (const component of components) {
+                try {
+                    console.log(`Loading ${component.file}...`);
+                    const response = await fetch(component.file);
+                    
+                    if (!response.ok) {
+                        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                    }
+                    
+                    const html = await response.text();
+                    const element = document.querySelector(component.selector);
+                    
+                    if (element) {
+                        element.innerHTML = html;
+                        console.log(`✅ Loaded ${component.file} into ${component.selector}`);
+                        console.log(`Content preview: ${html.substring(0, 100)}...`);
+                    } else {
+                        console.error(`❌ Element not found: ${component.selector}`);
+                    }
+                    
+                } catch (error) {
+                    console.error(`❌ Failed to load ${component.file}:`, error);
+                }
+            }
+            
+            // After loading, check visibility
+            setTimeout(() => {
+                const aboutSection = document.querySelector('#about');
+                if (aboutSection) {
+                    const computedStyle = window.getComputedStyle(aboutSection);
+                    console.log('About section visibility check:');
+                    console.log('- Display:', computedStyle.display);
+                    console.log('- Visibility:', computedStyle.visibility);
+                    console.log('- Opacity:', computedStyle.opacity);
+                    console.log('- Height:', computedStyle.height);
+                    console.log('- Background:', computedStyle.backgroundColor);
+                    console.log('- Element:', aboutSection);
+                }
+            }, 1000);
+        }
+
+        document.addEventListener('DOMContentLoaded', loadComponents);
+    </script>
+</body>
+</html>

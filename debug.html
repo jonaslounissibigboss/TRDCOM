@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug - Kommærsj Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .section { margin: 20px 0; padding: 20px; border: 2px solid #ccc; border-radius: 5px; }
+        .visible { background-color: #e8f5e8; border-color: #4caf50; }
+        .hidden { background-color: #ffe8e8; border-color: #f44336; }
+        h2 { margin-top: 0; }
+    </style>
+</head>
+<body>
+    <h1>Kommærsj Website Debug Test</h1>
+    
+    <div class="section">
+        <h2>Test 1: Component Files Accessibility</h2>
+        <div id="test1-results"></div>
+    </div>
+    
+    <div class="section">
+        <h2>Test 2: About Component Content</h2>
+        <div id="test2-results"></div>
+    </div>
+    
+    <div class="section">
+        <h2>Test 3: CSS Loading</h2>
+        <div id="test3-results"></div>
+    </div>
+
+    <script>
+        // Test 1: Check if component files are accessible
+        async function testComponentAccess() {
+            const components = [
+                'src/components/about.html',
+                'src/components/services.html',
+                'src/components/contact.html'
+            ];
+            
+            const results = document.getElementById('test1-results');
+            results.innerHTML = '<p>Testing component accessibility...</p>';
+            
+            for (const component of components) {
+                try {
+                    const response = await fetch(component);
+                    const status = response.ok ? '✅ Accessible' : '❌ Failed';
+                    results.innerHTML += `<p>${component}: ${status} (${response.status})</p>`;
+                } catch (error) {
+                    results.innerHTML += `<p>${component}: ❌ Error - ${error.message}</p>`;
+                }
+            }
+        }
+        
+        // Test 2: Load and display about component content
+        async function testAboutComponent() {
+            const results = document.getElementById('test2-results');
+            try {
+                const response = await fetch('src/components/about.html');
+                const html = await response.text();
+                results.innerHTML = `<h4>About Component Content:</h4><textarea rows="10" cols="80">${html}</textarea>`;
+            } catch (error) {
+                results.innerHTML = `<p>❌ Error loading about component: ${error.message}</p>`;
+            }
+        }
+        
+        // Test 3: Check CSS loading
+        function testCSSLoading() {
+            const results = document.getElementById('test3-results');
+            const link = document.createElement('link');
+            link.rel = 'stylesheet';
+            link.href = 'src/styles/main.css';
+            link.onload = () => {
+                results.innerHTML = '<p>✅ CSS loaded successfully</p>';
+            };
+            link.onerror = () => {
+                results.innerHTML = '<p>❌ CSS failed to load</p>';
+            };
+            document.head.appendChild(link);
+        }
+        
+        // Run tests
+        testComponentAccess();
+        testAboutComponent();
+        testCSSLoading();
+    </script>
+</body>
+</html>
