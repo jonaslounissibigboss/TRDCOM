@@ -278,8 +278,8 @@ async function loadComponent(selector, file) {
                         <h1 class="hero-title">KOMMÆRSJ</h1>
                         <p class="hero-subtitle">TRD Commercial Hub</p>
                         <div class="hero-buttons">
-                            <a href="#about" class="btn btn-primary">Learn More</a>
-                            <a href="#contact" class="btn btn-secondary">Contact Us</a>
+                            <a href="#about" class="btn btn-primary">Les Mer</a>
+                            <a href="#contact" class="btn btn-secondary">Kontakt Oss</a>
                         </div>
                     </div>
                 </div>
@@ -868,15 +868,46 @@ function initializeServicesCarousel() {
         }
     }
     
-    // Optional: Start autoplay
-    // startAutoPlay();
+    // Mobile-specific auto-scroll functionality
+    let hoverTimeout;
+    let isHovering = false;
     
-    // Pause autoplay on hover
-    carousel.addEventListener('mouseenter', stopAutoPlay);
-    carousel.addEventListener('mouseleave', () => {
-        // Uncomment the line below if you want autoplay
-        // startAutoPlay();
+    function isMobile() {
+        return window.innerWidth <= 768;
+    }
+    
+    // Auto-scroll when hovering too long on mobile
+    carousel.addEventListener('mouseenter', (e) => {
+        if (isMobile()) {
+            stopAutoPlay();
+            isHovering = true;
+            
+            // Start timer for auto-scroll after 3 seconds of hovering
+            hoverTimeout = setTimeout(() => {
+                if (isHovering) {
+                    nextSlide();
+                }
+            }, 3000);
+        } else {
+            stopAutoPlay();
+        }
     });
+    
+    carousel.addEventListener('mouseleave', () => {
+        isHovering = false;
+        clearTimeout(hoverTimeout);
+        
+        if (isMobile()) {
+            startAutoPlay();
+        }
+    });
+    
+    // Start autoplay on mobile
+    if (isMobile()) {
+        setTimeout(() => {
+            startAutoPlay();
+        }, 2000);
+    }
 }
     
     function stopAutoPlay() {
