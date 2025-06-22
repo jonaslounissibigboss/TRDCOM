@@ -1939,6 +1939,67 @@ footer .footer-title {
     100% { transform: scale(1.1); text-shadow: 0 0 8px var(--main-gold-shadow); }
 }
 
+/* Reviews Carousel Styles */
+.reviews-carousel-container {
+    position: relative;
+    overflow: hidden;
+    padding: 2rem 0;
+}
+
+.reviews-carousel {
+    display: flex;
+    transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.reviews-carousel .review-card {
+    min-width: 100%;
+    flex: 0 0 100%;
+    opacity: 0;
+    transform: scale(0.9);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.reviews-carousel .review-card.active {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* Reviews Carousel Controls - Always visible */
+.reviews-section .carousel-controls {
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+/* Override mobile-only class for reviews */
+.reviews-section .carousel-controls.mobile-only {
+    display: flex !important;
+}
+
+/* Responsive adjustments for reviews carousel */
+@media (max-width: 768px) {
+    .reviews-carousel .review-card {
+        padding: 1.5rem;
+    }
+    
+    .reviews-section .carousel-controls {
+        gap: 1rem;
+    }
+    
+    .reviews-section .carousel-btn {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .reviews-section .arrow-left,
+    .reviews-section .arrow-right {
+        width: 10px;
+        height: 10px;
+    }
+}
+
 /* Review card entrance animations */
 .review-card.animate-in {
     animation: reviewCardSlideIn 0.8s ease forwards;

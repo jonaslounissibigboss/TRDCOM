@@ -5,7 +5,8 @@
             <p class="section-subtitle">Hva våre kunder sier om å jobbe med oss</p>
         </div>
         
-        <div class="reviews-grid">
+        <div class="reviews-carousel-container">
+            <div class="reviews-carousel" id="reviewsCarousel">
             <div class="review-card fade-in-left">
                 <div class="review-content">
                     <div class="review-stars">
@@ -154,6 +155,24 @@
                         <p class="author-company">Forretningsutvikling, Local Enterprise</p>
                     </div>
                 </div>
+            </div>
+            </div>
+            
+            <div class="carousel-controls">
+                <button class="carousel-btn prev" aria-label="Previous review">
+                    <div class="arrow-left"></div>
+                </button>
+                <div class="carousel-indicators" id="reviewsIndicators">
+                    <div class="indicator active" data-index="0"></div>
+                    <div class="indicator" data-index="1"></div>
+                    <div class="indicator" data-index="2"></div>
+                    <div class="indicator" data-index="3"></div>
+                    <div class="indicator" data-index="4"></div>
+                    <div class="indicator" data-index="5"></div>
+                </div>
+                <button class="carousel-btn next" aria-label="Next review">
+                    <div class="arrow-right"></div>
+                </button>
             </div>
         </div>
     </div>

@@ -228,6 +228,8 @@ async function initializeComponentLoader() {
             initializeMobileMenu();
             // Re-initialize scroll effects to catch new elements
             initializeScrollEffects();
+            // Re-initialize interactive elements after components load
+            initializeInteractiveElements();
             
             // Debug: Check if about section is visible
             const aboutSection = document.querySelector('#about');
@@ -568,18 +570,144 @@ function showNotification(message, type = 'info') {
 }
 
 // ==========================================================================
-// ENHANCED REVIEW ANIMATIONS
+// ENHANCED REVIEW ANIMATIONS & CAROUSEL
 // ==========================================================================
 function initializeEnhancedReviewAnimations() {
-    const reviewCards = document.querySelectorAll('.review-card');
+    const reviewCarousel = document.getElementById('reviewsCarousel');
     
-    reviewCards.forEach((card, index) => {
-        // Add staggered entrance animation
-        setTimeout(() => {
-            card.classList.add('animate-in');
-        }, index * 150);
+    if (!reviewCarousel) {
+        console.log('Reviews carousel not found');
+        return;
+    }
+    
+    const reviewCards = reviewCarousel.querySelectorAll('.review-card');
+    const indicators = document.querySelectorAll('#reviewsIndicators .indicator');
+    const prevBtn = document.querySelector('.reviews-section .carousel-btn.prev');
+    const nextBtn = document.querySelector('.reviews-section .carousel-btn.next');
+    
+    let currentIndex = 0;
+    let autoScrollInterval;
+    let isTransitioning = false;
+    const totalReviews = reviewCards.length;
+    const AUTO_SCROLL_DELAY = 5000; // 5 seconds
+    
+    // Initialize first review as active
+    if (reviewCards.length > 0) {
+        reviewCards[0].classList.add('active');
+    }
+    
+    function updateReviewCarousel() {
+        if (isTransitioning) return;
+        isTransitioning = true;
         
-        // Add interactive star rating animation
+        // Update review visibility
+        reviewCards.forEach((card, index) => {
+            card.classList.toggle('active', index === currentIndex);
+        });
+        
+        // Update indicators
+        indicators.forEach((indicator, index) => {
+            indicator.classList.toggle('active', index === currentIndex);
+        });
+        
+        // Update carousel transform
+        reviewCarousel.style.transform = `translateX(-${currentIndex * 100}%)`;
+        
+        // Update button states
+        prevBtn.disabled = currentIndex === 0;
+        nextBtn.disabled = currentIndex === totalReviews - 1;
+        
+        setTimeout(() => {
+            isTransitioning = false;
+        }, 500);
+    }
+    
+    function nextReview() {
+        if (currentIndex < totalReviews - 1) {
+            currentIndex++;
+        } else {
+            currentIndex = 0; // Loop back to first
+        }
+        updateReviewCarousel();
+        resetAutoScroll();
+    }
+    
+    function prevReview() {
+        if (currentIndex > 0) {
+            currentIndex--;
+        } else {
+            currentIndex = totalReviews - 1; // Loop to last
+        }
+        updateReviewCarousel();
+        resetAutoScroll();
+    }
+    
+    function goToReview(index) {
+        if (index >= 0 && index < totalReviews) {
+            currentIndex = index;
+            updateReviewCarousel();
+            resetAutoScroll();
+        }
+    }
+    
+    function startAutoScroll() {
+        stopAutoScroll();
+        autoScrollInterval = setInterval(nextReview, AUTO_SCROLL_DELAY);
+    }
+    
+    function stopAutoScroll() {
+        if (autoScrollInterval) {
+            clearInterval(autoScrollInterval);
+            autoScrollInterval = null;
+        }
+    }
+    
+    function resetAutoScroll() {
+        stopAutoScroll();
+        startAutoScroll();
+    }
+    
+    // Event listeners
+    if (prevBtn) prevBtn.addEventListener('click', prevReview);
+    if (nextBtn) nextBtn.addEventListener('click', nextReview);
+    
+    indicators.forEach((indicator, index) => {
+        indicator.addEventListener('click', () => goToReview(index));
+    });
+    
+    // Pause auto-scroll on hover
+    reviewCarousel.addEventListener('mouseenter', stopAutoScroll);
+    reviewCarousel.addEventListener('mouseleave', startAutoScroll);
+    
+    // Touch/swipe support
+    let touchStartX = 0;
+    let touchEndX = 0;
+    
+    reviewCarousel.addEventListener('touchstart', (e) => {
+        touchStartX = e.touches[0].clientX;
+        stopAutoScroll();
+    });
+    
+    reviewCarousel.addEventListener('touchmove', (e) => {
+        touchEndX = e.touches[0].clientX;
+    });
+    
+    reviewCarousel.addEventListener('touchend', () => {
+        const swipeDistance = touchStartX - touchEndX;
+        const minSwipeDistance = 50;
+        
+        if (Math.abs(swipeDistance) > minSwipeDistance) {
+            if (swipeDistance > 0) {
+                nextReview();
+            } else {
+                prevReview();
+            }
+        }
+        startAutoScroll();
+    });
+    
+    // Add star animations to all cards
+    reviewCards.forEach((card) => {
         const stars = card.querySelectorAll('.star');
         card.addEventListener('mouseenter', () => {
             stars.forEach((star, starIndex) => {
@@ -597,6 +725,14 @@ function initializeEnhancedReviewAnimations() {
             });
         });
     });
+    
+    // Initialize carousel
+    updateReviewCarousel();
+    
+    // Start auto-scroll after a delay
+    setTimeout(startAutoScroll, 2000);
+    
+    console.log('Reviews carousel initialized with', totalReviews, 'reviews');
 }
 
 // ==========================================================================
@@ -652,13 +788,13 @@ function initializeInteractiveElements() {
                     targetPage = 'mentoring.html';
                     break;
                 case 'community':
-                    targetPage = 'community.html';
+                    targetPage = 'trd-commercial-hub.html';
                     break;
                 case 'for-hire':
-                    targetPage = 'for-hire.html';
+                    targetPage = 'kommaersj-for-hire.html';
                     break;
                 default:
-                    targetPage = 'solutions.html';
+                    targetPage = '#services';
             }
             
             // Navigate to the corresponding page
