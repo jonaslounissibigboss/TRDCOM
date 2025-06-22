@@ -635,6 +635,36 @@ function initializeInteractiveElements() {
                 : 'translateX(0)';
         });
     });
+    
+    // Add click functionality to service cards
+    const serviceCards = document.querySelectorAll('.service-card');
+    serviceCards.forEach(card => {
+        card.style.cursor = 'pointer';
+        card.addEventListener('click', () => {
+            const service = card.getAttribute('data-service');
+            let targetPage = '';
+            
+            switch(service) {
+                case 'kommaersj-utvikling':
+                    targetPage = 'kommaersj-utvikling.html';
+                    break;
+                case 'mentoring':
+                    targetPage = 'mentoring.html';
+                    break;
+                case 'community':
+                    targetPage = 'community.html';
+                    break;
+                case 'for-hire':
+                    targetPage = 'for-hire.html';
+                    break;
+                default:
+                    targetPage = 'solutions.html';
+            }
+            
+            // Navigate to the corresponding page
+            window.location.href = targetPage;
+        });
+    });
 }
 
 // ==========================================================================
