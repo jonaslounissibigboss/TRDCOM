@@ -639,10 +639,25 @@ header.scrolled {
     margin-bottom: 4rem;
 }
 
+/* DESKTOP GRID LAYOUT */
+.services-grid-container {
+    position: relative;
+    border-radius: 15px;
+}
+
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    padding: 1rem;
+}
+
+/* MOBILE CAROUSEL LAYOUT */
 .services-carousel-container {
     position: relative;
     overflow: hidden;
     border-radius: 15px;
+    display: none;
 }
 
 .services-carousel {
@@ -654,7 +669,6 @@ header.scrolled {
 }
 
 .service-card {
-    flex: 0 0 calc(50% - 1rem);
     background: var(--ferrari-white);
     padding: 2.5rem;
     border-radius: 10px;
@@ -674,6 +688,11 @@ header.scrolled {
         );
     background-size: cover;
     background-position: center;
+}
+
+/* Service card in carousel (mobile) */
+.services-carousel .service-card {
+    flex: 0 0 calc(100% - 2rem);
 }
 
 .service-card:hover {
@@ -841,11 +860,16 @@ header.scrolled {
 
 /* CAROUSEL CONTROLS */
 .carousel-controls {
-    display: flex;
+    display: none; /* Hidden on desktop */
     justify-content: center;
     align-items: center;
     gap: 2rem;
     margin-top: 3rem;
+}
+
+/* Mobile-only class */
+.mobile-only {
+    display: none;
 }
 
 .carousel-btn {
@@ -1542,8 +1566,17 @@ footer .footer-title {
         font-size: 2rem;
     }
     
-    /* Mobile Services - Show 1 card at a time */
-    .service-card {
+    /* Mobile Services - Switch to carousel layout */
+    .services-grid-container {
+        display: none;
+    }
+    
+    .services-carousel-container {
+        display: block !important;
+        margin: 0 -1rem;
+    }
+    
+    .services-carousel .service-card {
         flex: 0 0 calc(100% - 2rem);
         margin: 0 1rem;
         min-height: 320px;
@@ -1554,11 +1587,9 @@ footer .footer-title {
         padding: 0;
     }
     
-    .services-carousel-container {
-        margin: 0 -1rem;
-    }
-    
-    .carousel-controls {
+    .carousel-controls,
+    .mobile-only {
+        display: flex !important;
         gap: 1rem;
         margin-top: 2rem;
         padding: 0 1rem;
