@@ -278,8 +278,8 @@ async function loadComponent(selector, file) {
                         <h1 class="hero-title">KOMMÆRSJ</h1>
                         <p class="hero-subtitle">TRD Commercial Hub</p>
                         <div class="hero-buttons">
-                            <a href="#about" class="btn btn-primary">Learn More</a>
-                            <a href="#contact" class="btn btn-secondary">Contact Us</a>
+                            <a href="#about" class="btn btn-primary">Les Mer</a>
+                            <a href="#contact" class="btn btn-secondary">Kontakt Oss</a>
                         </div>
                     </div>
                 </div>
