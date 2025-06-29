@@ -2190,4 +2190,388 @@ footer .footer-title {
     }
 }
 
+/* ==========================================================================
+   OM OSS PAGE STYLES
+   ========================================================================== */
+
+/* About Hero Section */
+.about-hero {
+    background: linear-gradient(135deg, var(--ferrari-black) 0%, var(--section-bg-charcoal) 100%);
+    color: var(--ferrari-white);
+    min-height: 70vh;
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 120px 0 80px;
+}
+
+.about-hero-content {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.about-hero-title {
+    font-size: 4rem;
+    font-weight: var(--font-weight-bold);
+    color: var(--main-gold);
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    margin-bottom: 1.5rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.about-hero-subtitle {
+    font-size: 1.3rem;
+    font-weight: var(--font-weight-light);
+    color: var(--ferrari-gray-lighter);
+    line-height: 1.6;
+}
+
+/* Mission Section */
+.mission-section {
+    padding: 100px 0;
+    background: var(--section-bg-dark);
+    color: var(--ferrari-white);
+}
+
+.mission-content {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.mission-description {
+    font-size: 1.2rem;
+    line-height: 1.8;
+    color: var(--ferrari-gray-lighter);
+    margin-bottom: 2rem;
+}
+
+/* Team Section */
+.team-section {
+    padding: 100px 0;
+    background: #1f1f1f;
+    color: var(--ferrari-white);
+}
+
+.team-header {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.team-subtitle {
+    font-size: 1.2rem;
+    color: var(--ferrari-gray-lighter);
+    margin-top: 1rem;
+}
+
+.team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+    gap: 4rem;
+    margin-top: 4rem;
+}
+
+.team-member {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 15px;
+    padding: 2.5rem;
+    transition: all var(--transition-normal);
+    border: 1px solid transparent;
+    position: relative;
+    overflow: hidden;
+}
+
+.team-member::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, var(--main-gold), var(--main-gold-dark));
+    transition: left 0.5s ease;
+}
+
+.team-member:hover::before {
+    left: 0;
+}
+
+.team-member:hover {
+    transform: translateY(-10px);
+    box-shadow: var(--shadow-gold);
+    border-color: var(--main-gold);
+    background: rgba(212, 175, 55, 0.05);
+}
+
+.team-image-container {
+    width: 150px;
+    height: 150px;
+    margin: 0 auto 2rem;
+    position: relative;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid var(--main-gold);
+    box-shadow: 0 4px 20px var(--main-gold-shadow);
+}
+
+.team-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--transition-normal);
+}
+
+.team-member:hover .team-image {
+    transform: scale(1.1);
+}
+
+.team-image-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(212, 175, 55, 0.2);
+    opacity: 0;
+    transition: opacity var(--transition-normal);
+}
+
+.team-member:hover .team-image-overlay {
+    opacity: 1;
+}
+
+.team-info {
+    text-align: center;
+}
+
+.team-name {
+    font-size: 1.5rem;
+    font-weight: var(--font-weight-bold);
+    color: var(--main-gold);
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.team-title {
+    font-size: 1.1rem;
+    color: var(--ferrari-gray-light);
+    margin-bottom: 1.5rem;
+    font-weight: var(--font-weight-medium);
+}
+
+.team-description {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--ferrari-gray-lighter);
+    margin-bottom: 2rem;
+    text-align: left;
+}
+
+.team-expertise {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: center;
+}
+
+.expertise-tag {
+    background: var(--main-gold);
+    color: var(--ferrari-black);
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: var(--font-weight-medium);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: all var(--transition-normal);
+}
+
+.expertise-tag:hover {
+    background: var(--main-gold-dark);
+    transform: translateY(-2px);
+}
+
+/* Values Section */
+.values-section {
+    padding: 100px 0;
+    background: var(--section-bg-dark);
+    color: var(--ferrari-white);
+}
+
+.values-header {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.values-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 3rem;
+    margin-top: 3rem;
+}
+
+.value-card {
+    background: rgba(0, 0, 0, 0.3);
+    padding: 2.5rem;
+    border-radius: 15px;
+    text-align: center;
+    transition: all var(--transition-normal);
+    border: 1px solid transparent;
+    position: relative;
+    overflow: hidden;
+}
+
+.value-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, var(--main-gold), var(--main-gold-dark));
+    transition: left 0.5s ease;
+}
+
+.value-card:hover::before {
+    left: 0;
+}
+
+.value-card:hover {
+    transform: translateY(-10px);
+    box-shadow: var(--shadow-gold);
+    border-color: var(--main-gold);
+    background: rgba(212, 175, 55, 0.05);
+}
+
+.value-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--main-gold), var(--main-gold-dark));
+    border-radius: 50%;
+    transition: all var(--transition-normal);
+    box-shadow: 0 4px 20px var(--main-gold-shadow);
+}
+
+.value-card:hover .value-icon {
+    transform: scale(1.1) rotate(5deg);
+    box-shadow: 0 6px 25px var(--main-gold-shadow);
+}
+
+.icon-execution,
+.icon-people,
+.icon-results {
+    width: 40px;
+    height: 40px;
+    background: var(--ferrari-white);
+    border-radius: 5px;
+}
+
+.value-title {
+    font-size: 1.3rem;
+    font-weight: var(--font-weight-bold);
+    color: var(--main-gold);
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.value-description {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--ferrari-gray-lighter);
+}
+
+/* About CTA Section */
+.about-cta-section {
+    padding: 100px 0;
+    background: #1f1f1f;
+    color: var(--ferrari-white);
+    text-align: center;
+}
+
+.about-cta-content {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.about-cta-title {
+    font-size: 2.5rem;
+    font-weight: var(--font-weight-bold);
+    color: var(--main-gold);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 1.5rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.about-cta-description {
+    font-size: 1.2rem;
+    color: var(--ferrari-gray-lighter);
+    margin-bottom: 2.5rem;
+    line-height: 1.6;
+}
+
+.about-cta-buttons {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+/* Mobile Responsive for Om Oss */
+@media (max-width: 768px) {
+    .about-hero-title {
+        font-size: 2.5rem;
+        line-height: 1.2;
+    }
+    
+    .about-hero-subtitle {
+        font-size: 1.1rem;
+    }
+    
+    .team-grid {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+    }
+    
+    .team-member {
+        padding: 2rem;
+    }
+    
+    .team-description {
+        text-align: center;
+    }
+    
+    .values-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    
+    .value-card {
+        padding: 2rem;
+    }
+    
+    .about-cta-title {
+        font-size: 2rem;
+        line-height: 1.2;
+    }
+    
+    .about-cta-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .about-cta-buttons .btn {
+        width: 100%;
+        max-width: 280px;
+    }
+}
+
 
