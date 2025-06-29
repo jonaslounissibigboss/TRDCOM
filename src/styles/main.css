@@ -716,6 +716,18 @@ header.scrolled {
     left: 50%;
     transform: translateX(-50%);
     z-index: 4;
+    cursor: pointer;
+    padding: 10px;
+    transition: all var(--transition-normal);
+}
+
+.hero-scroll-indicator:hover {
+    transform: translateX(-50%) translateY(-5px);
+}
+
+.hero-scroll-indicator:hover .scroll-arrow {
+    border-color: var(--main-gold);
+    animation-duration: 1s;
 }
 
 .scroll-arrow {
@@ -723,8 +735,10 @@ header.scrolled {
     height: 30px;
     border: 2px solid var(--ferrari-white);
     border-top: none;
-    border-left: none;    transform: rotate(45deg);
+    border-left: none;
+    transform: rotate(45deg);
     animation: bounce 2s infinite;
+    transition: all var(--transition-normal);
 }
 
 /* SERVICES SECTION */
@@ -1090,6 +1104,18 @@ header.scrolled {
     transition: all var(--transition-normal);
 }
 
+/* Contact links styling */
+a.contact-link {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    width: 100%;
+}
+
+a.contact-link:hover {
+    text-decoration: none;
+}
+
 .contact-item:hover {
     background: var(--main-gold);
     color: var(--ferrari-black);
@@ -1213,6 +1239,25 @@ header.scrolled {
 
 .submit-btn.loading .btn-loading {
     display: inline;
+}
+
+/* Spinner animation for loading state */
+.spinner {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top-color: var(--ferrari-white);
+    border-radius: 50%;
+    animation: spinner-rotate 0.8s linear infinite;
+    vertical-align: middle;
+    margin-right: 8px;
+}
+
+@keyframes spinner-rotate {
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 /* FADE IN ANIMATIONS */
@@ -1517,32 +1562,30 @@ footer .footer-title {
 }
 
 .social-link {
-    display: block;
-    width: 45px;
-    height: 45px;
-    background: var(--ferrari-gray);
-    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 35px;
+    height: 35px;
+    color: var(--ferrari-gray-lighter);
     transition: all var(--transition-normal);
     position: relative;
-    border: 2px solid transparent;
 }
 
 .social-link:hover {
-    background: var(--main-gold);
+    color: var(--main-gold);
     transform: translateY(-3px);
-    border-color: var(--main-gold-light);
-    box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
 }
 
 .social-icon {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 20px;
-    height: 20px;
-    background: var(--ferrari-white);
-    border-radius: 2px;
+    width: 24px;
+    height: 24px;
+    transition: all var(--transition-normal);
+    fill: currentColor;
+}
+
+.social-link:hover .social-icon {
+    transform: scale(1.1);
 }
 
 .footer-links {
@@ -1600,14 +1643,40 @@ footer .footer-title {
     height: 50px;
     cursor: pointer;
     transition: all var(--transition-normal);
-    position: relative;
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
     color: var(--ferrari-black);
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px);
+}
+
+.back-to-top.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
 }
 
 .back-to-top:hover {
     background: var(--main-gold-dark);
     transform: translateY(-3px);
     box-shadow: var(--shadow-gold);
+}
+
+.back-to-top.show:hover {
+    transform: translateY(-3px);
+}
+
+/* Mobile responsive for back to top button */
+@media (max-width: 768px) {
+    .back-to-top {
+        bottom: 20px;
+        right: 20px;
+        width: 45px;
+        height: 45px;
+    }
 }
 
 .arrow-up {
@@ -2013,6 +2082,111 @@ footer .footer-title {
     100% {
         opacity: 1;
         transform: translateY(0) scale(1);
+    }
+}
+
+/* ==========================================================================
+   NOTIFICATION TOAST STYLES
+   ========================================================================== */
+.notification-toast {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: var(--ferrari-white);
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    opacity: 0;
+    transform: translateX(100%);
+    transition: all var(--transition-normal);
+    z-index: 9999;
+    min-width: 320px;
+    max-width: 400px;
+}
+
+.notification-toast.show {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.notification-toast.hiding {
+    opacity: 0;
+    transform: translateX(100%);
+}
+
+.notification-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    gap: 12px;
+}
+
+.notification-message {
+    font-family: var(--font-primary);
+    font-size: 0.95rem;
+    color: var(--ferrari-gray);
+    font-weight: var(--font-weight-medium);
+    flex: 1;
+}
+
+.notification-close {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--ferrari-gray-lighter);
+    transition: all var(--transition-fast);
+    border-radius: 4px;
+}
+
+.notification-close:hover {
+    color: var(--ferrari-gray);
+    background: rgba(0, 0, 0, 0.05);
+}
+
+.notification-progress {
+    height: 3px;
+    background: rgba(0, 0, 0, 0.05);
+    position: relative;
+    overflow: hidden;
+}
+
+.notification-progress-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: var(--main-gold);
+    transition: width linear;
+}
+
+/* Success notification style */
+.notification-toast.success .notification-progress-bar {
+    background: var(--main-gold);
+}
+
+/* Error notification style */
+.notification-toast.error .notification-progress-bar {
+    background: var(--accent-red);
+}
+
+.notification-toast.error .notification-message {
+    color: var(--accent-red);
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+    .notification-toast {
+        top: 10px;
+        right: 10px;
+        left: 10px;
+        min-width: auto;
+        max-width: none;
     }
 }
 
