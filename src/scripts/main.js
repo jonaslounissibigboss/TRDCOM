@@ -94,16 +94,24 @@ function initializeLogoIntroAnimation() {
             // Check if we need to scroll to a specific section after animation
             setTimeout(() => {
                 const targetSection = sessionStorage.getItem('scrollToSection');
-                if (targetSection) {
-                    const element = document.getElementById(targetSection);
+                const urlHash = window.location.hash.replace('#', '');
+                
+                // Priority: sessionStorage first, then URL hash
+                const sectionToScroll = targetSection || urlHash;
+                
+                if (sectionToScroll) {
+                    const element = document.getElementById(sectionToScroll);
                     if (element) {
                         element.scrollIntoView({
                             behavior: 'smooth',
                             block: 'start'
                         });
                     }
-                    // Clear the stored section
+                    // Clear the stored section and URL hash
                     sessionStorage.removeItem('scrollToSection');
+                    if (urlHash) {
+                        window.history.replaceState(null, null, window.location.pathname);
+                    }
                 }
             }, 1000); // Wait additional 1 second after animation
             
