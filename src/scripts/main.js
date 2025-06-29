@@ -91,6 +91,22 @@ function initializeLogoIntroAnimation() {
             // Initialize enhanced service animations
             initializeEnhancedServiceAnimations();
             
+            // Check if we need to scroll to a specific section after animation
+            setTimeout(() => {
+                const targetSection = sessionStorage.getItem('scrollToSection');
+                if (targetSection) {
+                    const element = document.getElementById(targetSection);
+                    if (element) {
+                        element.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                    // Clear the stored section
+                    sessionStorage.removeItem('scrollToSection');
+                }
+            }, 1000); // Wait additional 1 second after animation
+            
         }, 800); // Wait for fade out transition
         
     }, 3500); // Total intro duration
