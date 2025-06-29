@@ -230,6 +230,10 @@ async function initializeComponentLoader() {
             initializeScrollEffects();
             // Re-initialize interactive elements after components load
             initializeInteractiveElements();
+            // Re-initialize form handling after contact component loads
+            initializeFormHandling();
+            // Re-initialize scroll buttons after components load
+            initializeScrollButtons();
             
             // Debug: Check if about section is visible
             const aboutSection = document.querySelector('#about');
@@ -471,7 +475,15 @@ function animateNumber(element) {
 function initializeFormHandling() {
     const contactForm = document.getElementById('contactForm');
     
-    if (!contactForm) return;
+    if (!contactForm) {
+        console.log('Contact form not found');
+        return;
+    }
+    
+    console.log('Initializing form handling for contact form');
+    
+    // Remove inline onsubmit handler
+    contactForm.onsubmit = null;
     
     contactForm.addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -479,36 +491,59 @@ function initializeFormHandling() {
         const submitBtn = contactForm.querySelector('.submit-btn');
         const formData = new FormData(contactForm);
         
+        // Store original button text
+        const originalBtnText = submitBtn.innerHTML;
+        
         // Add loading state
         submitBtn.classList.add('loading');
         submitBtn.disabled = true;
+        submitBtn.innerHTML = '<span class="spinner"></span> Sender...';
         
         try {
-            // Simulate form submission (replace with actual endpoint)
-            await new Promise(resolve => setTimeout(resolve, 2000));
-            
-            // Success feedback
-            showNotification('Takk for meldingen! Vi kommer tilbake til deg snart.', 'success');
-            contactForm.reset();
-            
-            // Reset form field states
-            const formGroups = contactForm.querySelectorAll('.form-group');
-            formGroups.forEach(group => {
-                const input = group.querySelector('input, textarea');
-                const label = group.querySelector('label');
-                if (input && label && !input.value) {
-                    label.style.top = '1rem';
-                    label.style.fontSize = '0.9rem';
-                    label.style.color = 'var(--ferrari-gray-lighter)';
-                }
+            // Send email via API
+            const response = await fetch('/api/send-email', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    name: formData.get('name'),
+                    email: formData.get('email'),
+                    subject: formData.get('subject'),
+                    message: formData.get('message')
+                })
             });
+            
+            const result = await response.json();
+            
+            if (response.ok && result.success) {
+                // Success feedback
+                showNotification('Takk for meldingen! Vi kommer tilbake til deg snart.', 'success');
+                contactForm.reset();
+                
+                // Reset form field labels
+                const formGroups = contactForm.querySelectorAll('.form-group');
+                formGroups.forEach(group => {
+                    const input = group.querySelector('input, textarea');
+                    const label = group.querySelector('label');
+                    if (input && label) {
+                        label.style.top = '1rem';
+                        label.style.fontSize = '0.9rem';
+                        label.style.color = 'var(--ferrari-gray-lighter)';
+                    }
+                });
+            } else {
+                throw new Error(result.message || 'Kunne ikke sende melding');
+            }
             
         } catch (error) {
             console.error('Form submission error:', error);
-            showNotification('Det oppstod en feil. Prøv igjen senere.', 'error');
+            showNotification('Det oppstod en feil. Vennligst prøv igjen senere eller kontakt oss direkte.', 'error');
         } finally {
+            // Restore button state
             submitBtn.classList.remove('loading');
             submitBtn.disabled = false;
+            submitBtn.innerHTML = originalBtnText;
         }
     });
     
@@ -536,38 +571,7 @@ function initializeFormHandling() {
     });
 }
 
-function showNotification(message, type = 'info') {
-    const notification = document.createElement('div');
-    notification.className = `notification notification-${type}`;
-    notification.textContent = message;
-    
-    notification.style.cssText = `
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        background: ${type === 'success' ? 'var(--main-gold)' : 'var(--accent-red)'};
-        color: var(--ferrari-white);
-        padding: 1rem 2rem;
-        border-radius: 5px;
-        z-index: 10000;
-        transform: translateX(100%);
-        transition: transform 0.3s ease;
-        box-shadow: var(--shadow-medium);
-    `;
-    
-    document.body.appendChild(notification);
-    
-    setTimeout(() => {
-        notification.style.transform = 'translateX(0)';
-    }, 100);
-    
-    setTimeout(() => {
-        notification.style.transform = 'translateX(100%)';
-        setTimeout(() => {
-            notification.remove();
-        }, 300);
-    }, 3000);
-}
+// Old showNotification removed - using the new one with progress bar
 
 // ==========================================================================
 // ENHANCED REVIEW ANIMATIONS & CAROUSEL
@@ -1138,11 +1142,9 @@ function initializeBackToTop() {
     // Show/hide back to top button based on scroll position
     window.addEventListener('scroll', () => {
         if (window.pageYOffset > 300) {
-            backToTopBtn.style.opacity = '1';
-            backToTopBtn.style.visibility = 'visible';
+            backToTopBtn.classList.add('show');
         } else {
-            backToTopBtn.style.opacity = '0';
-            backToTopBtn.style.visibility = 'hidden';
+            backToTopBtn.classList.remove('show');
         }
     });
     
@@ -1154,10 +1156,82 @@ function initializeBackToTop() {
         });
     });
     
-    // Initial state
-    backToTopBtn.style.opacity = '0';
-    backToTopBtn.style.visibility = 'hidden';
-    backToTopBtn.style.transition = 'all var(--transition-normal)';
+    console.log('Back to top button initialized');
+}
+
+// ==========================================================================
+// NOTIFICATION SYSTEM
+// ==========================================================================
+function showNotification(message, type = 'success') {
+    // Remove any existing notifications
+    const existingNotification = document.querySelector('.notification-toast');
+    if (existingNotification) {
+        existingNotification.remove();
+    }
+    
+    // Create notification element
+    const notification = document.createElement('div');
+    notification.className = `notification-toast ${type}`;
+    notification.innerHTML = `
+        <div class="notification-content">
+            <span class="notification-message">${message}</span>
+            <button class="notification-close" aria-label="Lukk varsling">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                    <path d="M12 4L4 12M4 4L12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+            </button>
+        </div>
+        <div class="notification-progress">
+            <div class="notification-progress-bar"></div>
+        </div>
+    `;
+    
+    // Add to page
+    document.body.appendChild(notification);
+    
+    // Get elements
+    const closeBtn = notification.querySelector('.notification-close');
+    const progressBar = notification.querySelector('.notification-progress-bar');
+    
+    // Animation timing
+    const duration = 5000; // 5 seconds
+    let startTime = null;
+    let animationId = null;
+    
+    // Progress animation
+    function animateProgress(timestamp) {
+        if (!startTime) startTime = timestamp;
+        const elapsed = timestamp - startTime;
+        const progress = Math.min((elapsed / duration) * 100, 100);
+        
+        progressBar.style.width = `${100 - progress}%`;
+        
+        if (progress < 100) {
+            animationId = requestAnimationFrame(animateProgress);
+        } else {
+            closeNotification();
+        }
+    }
+    
+    // Close notification function
+    function closeNotification() {
+        if (animationId) {
+            cancelAnimationFrame(animationId);
+        }
+        notification.classList.add('hiding');
+        setTimeout(() => {
+            notification.remove();
+        }, 300);
+    }
+    
+    // Close button click handler
+    closeBtn.addEventListener('click', closeNotification);
+    
+    // Start animation after a brief delay
+    setTimeout(() => {
+        notification.classList.add('show');
+        requestAnimationFrame(animateProgress);
+    }, 100);
 }
 
 // ==========================================================================
@@ -1166,19 +1240,36 @@ function initializeBackToTop() {
 function initializeScrollButtons() {
     // Hero scroll indicator
     const heroScrollIndicator = document.querySelector('.hero-scroll-indicator');
+    console.log('Hero scroll indicator found:', !!heroScrollIndicator);
+    
     if (heroScrollIndicator) {
-        heroScrollIndicator.addEventListener('click', () => {
+        heroScrollIndicator.addEventListener('click', (e) => {
+            e.preventDefault();
+            console.log('Hero scroll indicator clicked!');
+            
             const aboutSection = document.querySelector('#about');
+            console.log('About section found:', !!aboutSection);
+            
             if (aboutSection) {
+                console.log('Scrolling to about section...');
                 aboutSection.scrollIntoView({
                     behavior: 'smooth',
                     block: 'start'
+                });
+            } else {
+                // Fallback: scroll down by viewport height
+                window.scrollBy({
+                    top: window.innerHeight,
+                    behavior: 'smooth'
                 });
             }
         });
         
         // Add cursor pointer style
         heroScrollIndicator.style.cursor = 'pointer';
+        console.log('Hero scroll indicator initialized successfully');
+    } else {
+        console.warn('Hero scroll indicator not found');
     }
     
     // Additional enhancement for back to top button
