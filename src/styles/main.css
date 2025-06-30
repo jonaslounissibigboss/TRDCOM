@@ -820,6 +820,22 @@ a.service-card:hover {
     text-decoration: none !important;
 }
 
+/* Force remove all underlines from service cards */
+.services-grid a {
+    text-decoration: none !important;
+}
+
+.services-grid a:hover,
+.services-grid a:focus,
+.services-grid a:active,
+.services-grid a:visited {
+    text-decoration: none !important;
+}
+
+.service-card * {
+    text-decoration: none !important;
+}
+
 .service-card:hover {
     transform: translateY(-15px) scale(1.02);
     box-shadow: 0 20px 40px rgba(212, 175, 55, 0.2), var(--shadow-heavy);
