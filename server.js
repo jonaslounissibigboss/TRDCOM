@@ -27,7 +27,7 @@ app.post('/api/send-email', async (req, res) => {
 
     const mailOptions = {
         from: email,
-        to: 'lounissijonas@gmail.com',
+        to: 'jonas.lounissi@gmail.com',
         subject: `Kontaktskjema: ${subject}`,
         html: `
             <h3>Ny melding fra kontaktskjemaet</h3>
