@@ -63,5 +63,5 @@ const transporter = nodemailer.createTransport({
 1. Open http://localhost:3000 in your browser
 2. Navigate to the contact form
 3. Fill out the form and submit
-4. Check that the email is received at lounissijonas@gmail.com
+4. Check that the email is received at jonas.lounissi@gmail.com
 5. Verify the notification appears with a progress bar
