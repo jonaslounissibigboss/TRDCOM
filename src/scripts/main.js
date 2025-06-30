@@ -228,13 +228,13 @@ function createRippleEffect(element, event) {
 async function initializeComponentLoader() {
     console.log('Loading components...');
       const components = [
-        { selector: 'header', file: 'components/header.html' },
-        { selector: '#hero', file: 'components/hero.html' },
-        { selector: '#about', file: 'components/about.html' },
-        { selector: '#services', file: 'components/services.html' },
-        { selector: '#reviews', file: 'components/reviews.html' },
-        { selector: '#contact', file: 'components/contact.html' },
-        { selector: 'footer', file: 'components/footer.html' }
+        { selector: 'header', file: 'src/components/header.html' },
+        { selector: '#hero', file: 'src/components/hero.html' },
+        { selector: '#about', file: 'src/components/about.html' },
+        { selector: '#services', file: 'src/components/services.html' },
+        { selector: '#reviews', file: 'src/components/reviews.html' },
+        { selector: '#contact', file: 'src/components/contact.html' },
+        { selector: 'footer', file: 'src/components/footer.html' }
     ];
     
     try {
