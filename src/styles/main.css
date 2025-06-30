@@ -795,6 +795,7 @@ header.scrolled {
     transform: translateY(0);
     opacity: 1;
     border: 2px solid transparent;
+    text-decoration: none !important;
     background: linear-gradient(135deg, 
             rgba(255, 255, 255, 0.95) 0%, 
             rgba(255, 255, 255, 0.9) 50%, 
@@ -807,6 +808,16 @@ header.scrolled {
 /* Service card in carousel (mobile) */
 .services-carousel .service-card {
     flex: 0 0 calc(100% - 2rem);
+}
+
+/* Remove underlines from service card links */
+a.service-card {
+    text-decoration: none !important;
+    color: inherit;
+}
+
+a.service-card:hover {
+    text-decoration: none !important;
 }
 
 .service-card:hover {
