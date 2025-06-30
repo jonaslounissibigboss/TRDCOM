@@ -163,8 +163,8 @@
                         La oss hjelpe deg med å utløse ditt kommersielle potensial
                     </p>
                     <div class="about-cta-buttons">
-                        <a href="/#contact" class="btn btn-primary">KONTAKT OSS</a>
-                        <a href="/#services" class="btn btn-secondary">SE VÅRE TJENESTER</a>
+                        <a href="../index.html#contact" class="btn btn-primary">KONTAKT OSS</a>
+                        <a href="../index.html#services" class="btn btn-secondary">SE VÅRE TJENESTER</a>
                     </div>
                 </div>
             </div>
@@ -175,19 +175,19 @@
         <!-- Footer content will be loaded here -->
     </footer>
 
-    <script src="scripts/main.js"></script>
+    <script src="scripts/om-oss.js"></script>
     <script>
         // Override link behavior for external navigation with delay for logo animation
         document.addEventListener('DOMContentLoaded', function() {
-            const contactBtn = document.querySelector('a[href="/#contact"]');
-            const servicesBtn = document.querySelector('a[href="/#services"]');
+            const contactBtn = document.querySelector('a[href="../index.html#contact"]');
+            const servicesBtn = document.querySelector('a[href="../index.html#services"]');
             
             if (contactBtn) {
                 contactBtn.addEventListener('click', function(e) {
                     e.preventDefault();
                     // Store the target section in sessionStorage
                     sessionStorage.setItem('scrollToSection', 'contact');
-                    window.location.href = '/index.html';
+                    window.location.href = '../index.html';
                 });
             }
             
@@ -196,7 +196,7 @@
                     e.preventDefault();
                     // Store the target section in sessionStorage
                     sessionStorage.setItem('scrollToSection', 'services');
-                    window.location.href = '/index.html';
+                    window.location.href = '../index.html';
                 });
             }
         });

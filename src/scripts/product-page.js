@@ -7,7 +7,7 @@ const TRANSITION_DURATION = 300;
 // Component loading configuration
 const componentsToLoad = [
     { file: 'header-product.html', selector: 'header' },
-    { file: 'footer.html', selector: 'footer' }
+    { file: 'footer-product.html', selector: 'footer' }
 ];
 
 // Load component function
