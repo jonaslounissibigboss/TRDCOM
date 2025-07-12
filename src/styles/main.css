@@ -305,7 +305,7 @@ header.scrolled {
     
     .logo {
         position: absolute;
-        left: 50%;
+        left: 55%;
         transform: translateX(-50%);
     }
     
@@ -431,8 +431,13 @@ header.scrolled {
     background: none;
     border: none;
     cursor: pointer;
-    padding: 0.5rem;
+    padding: 1rem;
+    margin: 0;
     transition: transform var(--transition-normal);
+    min-width: 48px;
+    min-height: 48px;
+    justify-content: center;
+    align-items: center;
 }
 
 .header-actions {
@@ -441,11 +446,12 @@ header.scrolled {
 }
 
 .menu-line {
-    width: 25px;
-    height: 2px;
+    width: 28px;
+    height: 3px;
     background: var(--ferrari-white);
-    margin: 3px 0;
+    margin: 4px 0;
     transition: all var(--transition-normal);
+    border-radius: 2px;
 }
 
 .menu-toggle.active .menu-line:nth-child(1) {
@@ -2029,8 +2035,7 @@ footer .footer-title {
     
     .menu-toggle {
         display: flex;
-        margin-left: 0;
-        margin-right: 15px;
+        margin: 0;
     }
     
     .mobile-menu {
@@ -3396,9 +3401,8 @@ footer .footer-title {
     }
     
     .menu-toggle {
-        margin-left: 0;
-        margin-right: 20px;
-        padding: 0.75rem;
+        margin: 0;
+        padding: 1.2rem;
     }
     
     .header-container {
