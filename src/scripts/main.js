@@ -44,6 +44,24 @@ function initializeLogoIntroAnimation() {
     const logoOverlay = document.getElementById('logo-intro-overlay');
     const body = document.body;
     
+    // Skip animation on mobile devices but add subtle fade
+    if (window.innerWidth <= 768) {
+        if (logoOverlay) {
+            logoOverlay.style.display = 'none';
+        }
+        body.classList.remove('intro-active');
+        
+        // Add subtle fade-in for mobile
+        const sections = document.querySelectorAll('header, main, footer');
+        sections.forEach((section, index) => {
+            section.classList.add('mobile-fade-in');
+            setTimeout(() => {
+                section.classList.add('show');
+            }, index * 100 + 200); // Staggered fade with initial delay
+        });
+        return;
+    }
+    
     if (!logoOverlay) {
         // If no logo overlay, ensure content is visible
         body.classList.remove('intro-active');
@@ -384,44 +402,104 @@ function initializeNavigation() {
 }
 
 // ==========================================================================
-// MOBILE MENU
+// MOBILE MENU (LEFT SLIDING DRAWER)
 // ==========================================================================
 function initializeMobileMenu() {
     const menuToggle = document.getElementById('menuToggle');
     const mobileMenu = document.getElementById('mobileMenu');
+    const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
+    const mobileMenuClose = document.getElementById('mobileMenuClose');
     const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+    const body = document.body;
     
-    if (!menuToggle || !mobileMenu) return;
+    console.log('Mobile menu elements:', {
+        menuToggle: !!menuToggle,
+        mobileMenu: !!mobileMenu,
+        mobileMenuOverlay: !!mobileMenuOverlay,
+        mobileMenuClose: !!mobileMenuClose,
+        linksCount: mobileNavLinks.length
+    });
+    
+    if (!menuToggle || !mobileMenu) {
+        console.warn('Required mobile menu elements not found');
+        return;
+    }
 
     let isMenuOpen = false;
 
-    menuToggle.addEventListener('click', () => {
-        isMenuOpen = !isMenuOpen;
-        
+    // Function to open mobile menu
+    function openMobileMenu() {
+        console.log('Opening mobile menu');
+        isMenuOpen = true;
+        mobileMenu.classList.add('active');
+        if (mobileMenuOverlay) mobileMenuOverlay.classList.add('active');
+        menuToggle.classList.add('active');
+        body.classList.add('mobile-menu-open');
+    }
+
+    // Function to close mobile menu
+    function closeMobileMenu() {
+        console.log('Closing mobile menu');
+        isMenuOpen = false;
+        mobileMenu.classList.remove('active');
+        if (mobileMenuOverlay) mobileMenuOverlay.classList.remove('active');
+        menuToggle.classList.remove('active');
+        body.classList.remove('mobile-menu-open');
+    }
+
+    // Toggle menu when hamburger is clicked
+    menuToggle.addEventListener('click', (e) => {
+        e.preventDefault();
+        console.log('Menu toggle clicked, current state:', isMenuOpen);
         if (isMenuOpen) {
-            mobileMenu.classList.add('active');
-            menuToggle.style.transform = 'rotate(90deg)';
+            closeMobileMenu();
         } else {
-            mobileMenu.classList.remove('active');
-            menuToggle.style.transform = 'rotate(0deg)';
+            openMobileMenu();
         }
     });
 
-    // Close mobile menu when clicking on a link
+    // Close menu when close button is clicked
+    if (mobileMenuClose) {
+        mobileMenuClose.addEventListener('click', (e) => {
+            e.preventDefault();
+            closeMobileMenu();
+        });
+    }
+
+    // Close menu when overlay is clicked
+    mobileMenuOverlay.addEventListener('click', () => {
+        closeMobileMenu();
+    });
+
+    // Close mobile menu when clicking on a navigation link
     mobileNavLinks.forEach(link => {
-        link.addEventListener('click', () => {
-            mobileMenu.classList.remove('active');
-            menuToggle.style.transform = 'rotate(0deg)';
-            isMenuOpen = false;
+        link.addEventListener('click', (e) => {
+            const href = link.getAttribute('href');
+            
+            // If it's a page navigation (not an anchor) and on mobile, use fade
+            if (href && href.includes('.html') && window.innerWidth <= 768) {
+                e.preventDefault();
+                closeMobileMenu();
+                setTimeout(() => {
+                    navigateWithFade(href);
+                }, 300); // Wait for menu to close
+            } else {
+                closeMobileMenu();
+            }
         });
     });
 
-    // Close mobile menu when clicking outside
-    document.addEventListener('click', (e) => {
-        if (isMenuOpen && !menuToggle.contains(e.target) && !mobileMenu.contains(e.target)) {
-            mobileMenu.classList.remove('active');
-            menuToggle.style.transform = 'rotate(0deg)';
-            isMenuOpen = false;
+    // Close menu with Escape key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && isMenuOpen) {
+            closeMobileMenu();
+        }
+    });
+
+    // Prevent menu from staying open on window resize
+    window.addEventListener('resize', () => {
+        if (window.innerWidth > 768 && isMenuOpen) {
+            closeMobileMenu();
         }
     });
 }
@@ -825,10 +903,34 @@ function initializeInteractiveElements() {
                     targetPage = '#services';
             }
             
-            // Navigate to the corresponding page
-            window.location.href = targetPage;
+            // Navigate with fade effect on mobile
+            if (window.innerWidth <= 768 && targetPage !== '#services') {
+                navigateWithFade(targetPage);
+            } else {
+                window.location.href = targetPage;
+            }
         });
     });
+}
+
+// ==========================================================================
+// MOBILE PAGE NAVIGATION WITH FADE
+// ==========================================================================
+function navigateWithFade(targetPage) {
+    const body = document.body;
+    const sections = document.querySelectorAll('header, main, footer');
+    
+    // Add fade-out class
+    body.classList.add('page-fade-out');
+    sections.forEach(section => {
+        section.style.opacity = '0';
+        section.style.transform = 'translateY(-10px)';
+    });
+    
+    // Navigate after fade out
+    setTimeout(() => {
+        window.location.href = targetPage;
+    }, 300);
 }
 
 // ==========================================================================
