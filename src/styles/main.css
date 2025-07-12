@@ -282,6 +282,10 @@ header.scrolled {
     align-items: center;
 }
 
+.header-spacer {
+    flex: 1;
+}
+
 .logo-text {
     font-size: 1.5rem;
     font-weight: var(--font-weight-bold);
@@ -397,6 +401,11 @@ header.scrolled {
     cursor: pointer;
     padding: 0.5rem;
     transition: transform var(--transition-normal);
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
 }
 
 .menu-line {
@@ -1973,7 +1982,7 @@ footer .footer-title {
 
 @media (max-width: 768px) {
     .container {
-        padding: 0 15px;
+        padding: 0 20px;
     }
     
     .main-nav {
@@ -1992,6 +2001,8 @@ footer .footer-title {
     
     .menu-toggle {
         display: flex;
+        margin-left: 0;
+        margin-right: 15px;
     }
     
     .mobile-menu {
@@ -3347,6 +3358,23 @@ footer .footer-title {
     .product-cta-buttons .btn {
         width: 100%;
         max-width: 280px;
+    }
+}
+
+/* LARGE MOBILE DEVICES - iPhone 15 Pro Max, etc. */
+@media (max-width: 768px) and (min-width: 430px) {
+    .container {
+        padding: 0 25px;
+    }
+    
+    .menu-toggle {
+        margin-left: 0;
+        margin-right: 20px;
+        padding: 0.75rem;
+    }
+    
+    .header-container {
+        padding: 1.2rem 0;
     }
 }
 
