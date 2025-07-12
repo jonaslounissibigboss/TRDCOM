@@ -140,6 +140,36 @@
     opacity: 0;
 }
 
+/* Disable logo animation completely on mobile devices */
+@media (max-width: 768px) {
+    .header-logo-transition {
+        display: none !important;
+    }
+    
+    .logo-intro-overlay {
+        display: none !important;
+    }
+    
+    /* Add subtle fade-in for mobile */
+    .mobile-fade-in {
+        opacity: 0;
+        transform: translateY(10px);
+        transition: all 0.6s ease;
+    }
+    
+    .mobile-fade-in.show {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    
+    /* Page transition fade effect */
+    body.page-fade-out header,
+    body.page-fade-out main,
+    body.page-fade-out footer {
+        transition: all 0.3s ease !important;
+    }
+}
+
 /* Keyframe animations */
 @keyframes logoIntroAppear {
     0% {
@@ -210,6 +240,8 @@ body.intro-active footer {
 html {
     scroll-behavior: smooth;
     font-size: 16px;
+    overflow-x: hidden;
+    width: 100%;
 }
 
 body {
@@ -219,6 +251,8 @@ body {
     color: var(--ferrari-gray);
     background-color: var(--ferrari-bg);
     overflow-x: hidden;
+    width: 100%;
+    max-width: 100%;
 }
 
 /* HEADER */
@@ -362,6 +396,7 @@ header.scrolled {
     border: none;
     cursor: pointer;
     padding: 0.5rem;
+    transition: transform var(--transition-normal);
 }
 
 .menu-line {
@@ -372,27 +407,65 @@ header.scrolled {
     transition: all var(--transition-normal);
 }
 
-.mobile-menu {
-    display: none;
+.menu-toggle.active .menu-line:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+}
+
+.menu-toggle.active .menu-line:nth-child(2) {
+    opacity: 0;
+}
+
+.menu-toggle.active .menu-line:nth-child(3) {
+    transform: rotate(-45deg) translate(7px, -6px);
+}
+
+/* Mobile Menu Overlay Background */
+.mobile-menu-overlay {
+    display: block; /* Always display but hidden */
     position: fixed;
-    top: 100%;
+    top: 0;
     left: 0;
     width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 10000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.mobile-menu-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Left Sliding Drawer Menu */
+.mobile-menu {
+    display: block; /* Always display, but transform off-screen */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 280px;
+    height: 100vh;
     background: var(--ferrari-black);
-    padding: 2rem 0;
-    transform: translateY(-100%);
-    transition: transform var(--transition-normal);
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    z-index: 10001;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
+    overflow-y: auto;
+    padding-top: 20px; /* Reduced padding for better visibility */
 }
 
 .mobile-menu.active {
-    transform: translateY(0);
+    transform: translateX(0);
 }
 
 .mobile-nav {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: 1.5rem;
+    padding: 1rem 0;
+    gap: 0;
+    width: 100%;
 }
 
 .mobile-nav-link {
@@ -401,12 +474,63 @@ header.scrolled {
     text-transform: uppercase;
     font-weight: var(--font-weight-medium);
     letter-spacing: 1px;
-    padding: 1rem;
+    padding: 1rem 2rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all var(--transition-normal);
+    display: block;
+    position: relative;
+}
+
+.mobile-nav-link:hover,
+.mobile-nav-link:focus {
+    color: var(--main-gold);
+    background: rgba(212, 175, 55, 0.1);
+    padding-left: 2.5rem;
+}
+
+.mobile-nav-link:last-child {
+    border-bottom: none;
+}
+
+/* Mobile menu close button */
+.mobile-menu-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: none;
+    border: none;
+    color: var(--ferrari-white);
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0.5rem;
     transition: color var(--transition-normal);
 }
 
-.mobile-nav-link:hover {
+.mobile-menu-close:hover {
     color: var(--main-gold);
+}
+
+/* Mobile menu header */
+.mobile-menu-header {
+    padding: 1rem 2rem;
+    border-bottom: 2px solid var(--main-gold);
+    margin-bottom: 1rem;
+    position: relative;
+}
+
+.mobile-menu-logo {
+    color: var(--main-gold);
+    font-size: 1.2rem;
+    font-weight: var(--font-weight-bold);
+    letter-spacing: 2px;
+}
+
+/* Ensure mobile menu is properly visible when active */
+@media (max-width: 768px) {
+    .mobile-menu.active {
+        transform: translateX(0) !important;
+        display: block !important;
+    }
 }
 
 /* BUTTONS */
@@ -516,6 +640,9 @@ header.scrolled {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 20px;
+    overflow-x: hidden;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 /* SECTION BACKGROUNDS - ALTERNATING PATTERN */
@@ -1779,6 +1906,71 @@ footer .footer-title {
     }
 }
 
+/* Tablet screens - 1024px and below */
+@media (max-width: 1024px) {
+    .container {
+        padding: 0 20px;
+    }
+    
+    /* Hero adjustments for tablets */
+    .hero-title,
+    .about-hero-title,
+    .product-hero-title {
+        font-size: 3rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 1.15rem;
+    }
+    
+    /* Grid adjustments for tablets */
+    .team-grid {
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 3rem;
+    }
+    
+    .reviews-grid {
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    }
+    
+    /* Services grid to 2 columns on tablets */
+    .services-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    /* Contact content still 2 columns on tablets */
+    .contact-content {
+        grid-template-columns: 1fr 1fr;
+        gap: 2.5rem;
+    }
+    
+    /* About stats better layout */
+    .about-stats {
+        justify-content: center;
+        gap: 2rem;
+    }
+    
+    /* Section padding adjustment */
+    .hero-section,
+    .about-section,
+    .services-section,
+    .contact-section,
+    .reviews-section,
+    .team-section {
+        padding: 80px 0;
+    }
+    
+    /* Product page adjustments */
+    .overview-content {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+    }
+    
+    .stats-cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
 @media (max-width: 768px) {
     .container {
         padding: 0 15px;
@@ -1788,11 +1980,25 @@ footer .footer-title {
         display: none;
     }
     
+    /* Hide desktop dropdowns on mobile */
+    .dropdown-menu {
+        display: none !important;
+    }
+    
+    /* Prevent body scroll when mobile menu is open */
+    body.mobile-menu-open {
+        overflow: hidden;
+    }
+    
     .menu-toggle {
         display: flex;
     }
     
     .mobile-menu {
+        display: block;
+    }
+    
+    .mobile-menu-overlay {
         display: block;
     }
     
@@ -1856,13 +2062,16 @@ footer .footer-title {
     
     .services-carousel-container {
         display: block !important;
-        margin: 0 -1rem;
+        margin: 0;
+        padding: 0 1rem;
+        overflow: hidden;
     }
     
     .services-carousel .service-card {
         flex: 0 0 calc(100% - 2rem);
-        margin: 0 1rem;
+        margin: 0 0.5rem;
         min-height: 320px;
+        max-width: calc(100vw - 4rem);
     }
     
     .services-carousel {
@@ -1939,7 +2148,7 @@ footer .footer-title {
 
 .reviews-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 2rem;
     margin-top: 3rem;
 }
@@ -2189,8 +2398,8 @@ footer .footer-title {
     transform: translateX(100%);
     transition: all var(--transition-normal);
     z-index: 9999;
-    min-width: 320px;
-    max-width: 400px;
+    min-width: min(320px, calc(100vw - 40px));
+    max-width: min(400px, calc(100vw - 40px));
 }
 
 .notification-toast.show {
@@ -2357,7 +2566,7 @@ footer .footer-title {
 
 .team-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 4rem;
     margin-top: 4rem;
 }
@@ -3138,6 +3347,215 @@ footer .footer-title {
     .product-cta-buttons .btn {
         width: 100%;
         max-width: 280px;
+    }
+}
+
+/* SMALLER MOBILE DEVICES - 480px and below */
+@media (max-width: 480px) {
+    .container {
+        padding: 0 10px;
+    }
+    
+    /* Mobile menu adjustments for small screens */
+    .mobile-menu {
+        width: 260px;
+    }
+    
+    .mobile-nav-link {
+        padding: 0.8rem 1.5rem;
+        font-size: 0.9rem;
+    }
+    
+    .mobile-menu-header {
+        padding: 0.8rem 1.5rem;
+    }
+    
+    .mobile-menu-logo {
+        font-size: 1.1rem;
+    }
+    
+    /* Typography adjustments for small screens */
+    .hero-title,
+    .about-hero-title,
+    .product-hero-title {
+        font-size: 2rem !important;
+        line-height: 1.1;
+    }
+    
+    .hero-subtitle {
+        font-size: 1rem;
+    }
+    
+    .section-title {
+        font-size: 1.8rem;
+    }
+    
+    .section-subtitle {
+        font-size: 0.95rem;
+    }
+    
+    /* Reduce excessive padding */
+    .hero-section,
+    .about-section,
+    .services-section,
+    .contact-section,
+    .reviews-section,
+    .team-section {
+        padding: 60px 0 !important;
+    }
+    
+    .about-hero {
+        padding: 80px 0 60px !important;
+    }
+    
+    /* Better button sizing */
+    .btn {
+        padding: 10px 20px;
+        font-size: 0.85rem;
+    }
+    
+    .hero-buttons .btn {
+        padding: 12px 20px;
+    }
+    
+    /* Grid improvements */
+    .team-grid,
+    .reviews-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    
+    /* Service cards mobile */
+    .services-carousel .service-card {
+        min-height: 280px;
+        padding: 1.5rem;
+    }
+    
+    /* Team cards */
+    .team-card {
+        padding: 1.5rem;
+    }
+    
+    .team-image-container {
+        width: 120px;
+        height: 120px;
+    }
+    
+    /* Contact form */
+    .contact-form {
+        padding: 1rem;
+    }
+    
+    .contact-item {
+        padding: 1rem;
+    }
+    
+    /* Carousel controls */
+    .carousel-btn {
+        width: 35px;
+        height: 35px;
+        font-size: 0.8rem;
+    }
+    
+    /* Stats adjustments */
+    .stat-number {
+        font-size: 1.5rem !important;
+    }
+    
+    .stat-label {
+        font-size: 0.8rem;
+    }
+}
+
+/* VERY SMALL SCREENS - 360px and below */
+@media (max-width: 360px) {
+    .container {
+        padding: 0 8px;
+    }
+    
+    /* Ensure no elements can cause horizontal overflow */
+    * {
+        max-width: 100% !important;
+    }
+    
+    /* Mobile menu for very small screens */
+    .mobile-menu {
+        width: 240px;
+    }
+    
+    .mobile-nav-link {
+        padding: 0.7rem 1.2rem;
+        font-size: 0.85rem;
+        letter-spacing: 0.5px;
+    }
+    
+    .mobile-menu-header {
+        padding: 0.7rem 1.2rem;
+    }
+    
+    .mobile-menu-logo {
+        font-size: 1rem;
+    }
+    
+    /* Specific overflow fixes */
+    .service-card::before,
+    .review-card::before {
+        display: none; /* Disable potentially problematic animations */
+    }
+    
+    /* Further typography reductions */
+    .hero-title,
+    .about-hero-title,
+    .product-hero-title {
+        font-size: 1.75rem !important;
+    }
+    
+    .section-title {
+        font-size: 1.5rem;
+    }
+    
+    /* Minimal padding for very small screens */
+    .hero-section,
+    .about-section,
+    .services-section,
+    .contact-section,
+    .reviews-section,
+    .team-section {
+        padding: 40px 0 !important;
+    }
+    
+    /* Service card improvements */
+    .services-carousel .service-card {
+        min-height: 250px;
+        padding: 1.2rem;
+        margin: 0 0.5rem;
+        flex: 0 0 calc(100% - 1rem);
+    }
+    
+    /* Button adjustments */
+    .btn {
+        padding: 8px 16px;
+        font-size: 0.8rem;
+    }
+    
+    /* Team image smaller */
+    .team-image-container {
+        width: 100px;
+        height: 100px;
+    }
+    
+    /* Mobile menu padding */
+    .mobile-menu {
+        padding: 1.5rem 0;
+    }
+    
+    .mobile-nav {
+        gap: 1rem;
+    }
+    
+    .mobile-nav-link {
+        padding: 0.75rem;
+        font-size: 0.9rem;
     }
 }
 
