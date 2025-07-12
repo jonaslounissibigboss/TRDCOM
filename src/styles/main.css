@@ -278,12 +278,44 @@ header.scrolled {
 
 .header-content {
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    position: relative;
 }
 
 .header-spacer {
     flex: 1;
+}
+
+/* Desktop layout */
+@media (min-width: 769px) {
+    .header-content {
+        justify-content: space-between;
+    }
+    
+    .header-actions {
+        display: none;
+    }
+}
+
+/* Mobile layout */
+@media (max-width: 768px) {
+    .header-content {
+        justify-content: flex-start;
+    }
+    
+    .logo {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    
+    .main-nav {
+        display: none;
+    }
+    
+    .header-spacer {
+        display: none;
+    }
 }
 
 .logo-text {
@@ -1983,10 +2015,6 @@ footer .footer-title {
 @media (max-width: 768px) {
     .container {
         padding: 0 20px;
-    }
-    
-    .main-nav {
-        display: none;
     }
     
     /* Hide desktop dropdowns on mobile */
