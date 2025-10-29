@@ -1,0 +1,58 @@
+/* ========================================
+   CSS RESET & BASE STYLES
+======================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    font-size: 16px;
+}
+
+body {
+    font-family: var(--font-primary);
+    font-weight: var(--font-weight-normal);
+    line-height: 1.6;
+    color: var(--ferrari-gray);
+    background-color: var(--ferrari-bg);
+    overflow-x: hidden;
+    width: 100%;
+    max-width: 100%;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+ul, ol {
+    list-style: none;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+button {
+    font-family: inherit;
+    cursor: pointer;
+    border: none;
+    background: none;
+}
+
+/* Hide main content during intro */
+body.intro-active {
+    overflow: hidden;
+}
+
+body.intro-active header,
+body.intro-active main,
+body.intro-active footer {
+    opacity: 0;
+}
