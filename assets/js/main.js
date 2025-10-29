@@ -23,7 +23,7 @@ function initializeLogoIntro() {
                 overlay.style.display = 'none';
                 document.body.classList.remove('intro-active');
             }, 500);
-        }, 1500);
+        }, 10000);
     }
 }
 
