@@ -151,6 +151,9 @@ function initializeFormHandling() {
     if (form) {
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
+            // Toggle loading state on the submit button
+            const submitBtn = form.querySelector('.submit-btn');
+            if (submitBtn) submitBtn.classList.add('loading');
             
             const formData = {
                 name: document.getElementById('name').value,
@@ -163,6 +166,11 @@ function initializeFormHandling() {
             // You can add email service integration later (EmailJS, Formspree, etc.)
             showNotification('Takk for din melding! Vi kommer tilbake til deg snart.', 'success');
             form.reset();
+
+            // Remove loading state after brief delay
+            setTimeout(() => {
+                if (submitBtn) submitBtn.classList.remove('loading');
+            }, 1200);
         });
     }
 }
